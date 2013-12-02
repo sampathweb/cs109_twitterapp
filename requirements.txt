@@ -1,0 +1,13 @@
+Flask
+requests
+WTForms
+webassets
+ipython
+ipdb
+Flask-Script
+Flask-WTF
+Pandas
+numpy
+scipy
+scikit-learn
+nltk
