@@ -9,5 +9,6 @@ Flask-WTF
 Pandas
 numpy
 scipy
+matplotlib
 scikit-learn
 nltk
