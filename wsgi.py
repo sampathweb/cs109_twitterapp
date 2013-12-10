@@ -2,10 +2,7 @@ import sys
 import os
 
 homedir = os.path.expanduser("~")
-#sys.path.insert(0, '/home/sampathweb/anaconda/envs/conda27/bin/')
 sys.path.insert(0, '/home/sampathweb/webapps/cs109_twitterapp/cs109_twitterapp/')
-# activate_this = homedir + "/anaconda/envs/conda27/bin/activate_this.py"
-# execfile(activate_this, {"__file__": activate_this})
 activate_this = "/home/sampathweb/webapps/cs109_twitterapp/env/bin/activate_this.py"
 execfile(activate_this, {"__file__": activate_this})
 

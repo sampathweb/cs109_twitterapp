@@ -2,17 +2,29 @@
 {% block body %}
 <div class="row">
     <div class="large-12 columns">
-    <h1>Twitter App</h1>
+    <h1>{{ category }} - {{ handle }}</h1>
 </div>
-<form>
-  <div class="row">
-    <div class="large-12 columns">
-      <label>Input Label</label>
-      <input type="text" placeholder="Enter a Twitter hadle?" />
+<form method="POST" action = "" class="form" >
+  <div class="row collapse">
+    <div class="small-8 columns">
+      <input name="handle" type="text" placeholder="Enter a Twitter hadle?" />
+    </div>
+    <div class="small-4 columns">
+      <button class="button small" type="submit">Submit</button>
+    </div>
     </div>
   </div>
 </form>
-    <img src="{{url_for('main.simple')}}" />
-    </div>
+{% if category %}
+<div class="row">
+  <div class="large-6 small-12 columns">
+    <h2>Retweets</h2>
+    <img src="{{url_for('main.viz_category', category=category, handle=handle, fig_type='hist', fig_data='retweet')}}" />
+  </div>
+  <div class="large-6 small-12 columns">
+    <h2>Favorites</h2>
+    <img src="{{url_for('main.viz_category', category=category, handle=handle, fig_type='hist', fig_data='favorite')}}" />
+  </div>
 </div>
+{% endif %}
 {% endblock %}
