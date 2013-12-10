@@ -1,3 +1,3 @@
-from main import main
+from main.views import main
 
 __all__ = ['main']
