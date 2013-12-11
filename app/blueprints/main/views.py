@@ -19,7 +19,10 @@ import matplotlib as mpl
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.dates import DateFormatter
- 
+
+from app.twitterword import recommend
+from app.helpers import get_viz_df
+
 main = Blueprint(
     'main', 
     __name__,
@@ -76,17 +79,24 @@ pd.set_option('display.width', 500)
 pd.set_option('display.max_columns', 100)
 
 @main.route('/', methods=['GET'])
-def base_index():
-    return redirect(url_for('/sports/'))
-
 @main.route('/<category>/', methods=['GET', 'POST'])
-def index(category=''):
+def index(category='sports'):
     handle = 'All'
     if request.method == 'POST':
         handle = request.form.get('handle')
         if not handle:
             handle = 'All'
     return render_template('main/index.html', category=category, handle=handle)
+
+@main.route('/words/', methods=['GET', 'POST'])
+def words():
+    search = ''
+    word_score = None
+    if request.method == 'POST':
+        search = request.form.get('search')
+    if search:
+        word_score = recommend(search)
+    return render_template('main/words.html')
 
 @main.route('/about/', methods=['GET', 'POST'])
 def about():
@@ -95,21 +105,6 @@ def about():
 @main.route('/favicon.ico')
 def favicon():
     return redirect(url_for('static', filename='img/favicon.ico'))
-
-def get_viz_df(category, handle=None):
-    if category == 'celebrity':
-        filename = 'datasets/twitterusers_top_100_celebrity.csv'
-    elif category == 'sports':
-        filename = 'datasets/twitterusers_top_100_sports.csv'
-    elif category == 'tech':
-        filename = 'datasets/twitterusers_top_100_tech.csv'
-    else:
-        # Not extracted yet.  Need to create an empty data frame
-        return pd.DataFrame()
-    df = pd.read_csv(filename)
-    if handle:
-        df = df[df['TwitterID'] == handle]
-    return df
 
 @main.route("/<category>/<fig_type>/<fig_data>/viz_category.png/")
 @main.route("/<category>/<fig_type>/<fig_data>/viz_category.png/<handle>/")

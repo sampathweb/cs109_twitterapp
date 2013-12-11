@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="row">
+    <div class="large-12 columns">
+    <h1>Words that get the Tweets</h1>
+</div>
+<form method="POST" action = "" class="form" >
+  <div class="row collapse">
+    <div class="small-8 columns">
+      <input name="search" type="text" placeholder="Enter a word?" />
+    </div>
+    <div class="small-4 columns">
+      <button class="button small" type="submit">Submit</button>
+    </div>
+    </div>
+  </div>
+</form>
+{% if word_score %}
+<div class="row">
+  <div class="large-6 small-12 columns">
+    <h2>word_score</h2>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

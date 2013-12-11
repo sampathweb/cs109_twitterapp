@@ -20,7 +20,7 @@ import matplotlib.cm as cm
 import matplotlib as mpl
 
 #Specific for what is used below
-import oauth2 as oauth
+#import oauth2 as oauth
 import urlparse
 import requests
 import csv
@@ -30,6 +30,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.cross_validation import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 
+from app.helpers import get_words_df
 
 def main():
     pass
@@ -82,8 +83,9 @@ def cv_score(clf, x, y, score_func):
     return result / nfold # average
 
 def recommend(twitterword):
-    newpd = pd.read_csv('twitter_bigdf_useravg.csv')
-    newpd['Tweet'] = newpd['Tweet'].map(lambda x: str(x))
+    newpd = get_words_df()
+    # newpd = pd.read_csv('twitter_bigdf_useravg.csv')
+    newpd['Tweet'] = newpd['Tweet'].apply(str)
 
     newpd['was_retweeted'] = newpd['average_retweet_threshold']
 
