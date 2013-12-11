@@ -78,15 +78,19 @@ def remove_border(axes=None, top=False, right=False, left=True, bottom=True):
 pd.set_option('display.width', 500)
 pd.set_option('display.max_columns', 100)
 
-@main.route('/', methods=['GET'])
-@main.route('/<category>/', methods=['GET', 'POST'])
-def index(category='sports'):
-    handle = 'All'
+@main.route('/', methods=['GET', 'POST'])
+def index():
+    return render_template('main/index.html')    
+
+
+@main.route('/explore/<category>/', methods=['GET', 'POST'])
+def explore(category='sports'):
+    handle = None
     if request.method == 'POST':
         handle = request.form.get('handle')
-        if not handle:
-            handle = 'All'
-    return render_template('main/index.html', category=category, handle=handle)
+    if handle and (handle[0] != '@' and handle[0] != '#'):
+        handle = None
+    return render_template('main/explore.html', category=category, handle=handle)
 
 @main.route('/words/', methods=['GET', 'POST'])
 def words():
@@ -106,11 +110,9 @@ def about():
 def favicon():
     return redirect(url_for('static', filename='img/favicon.ico'))
 
-@main.route("/<category>/<fig_type>/<fig_data>/viz_category.png/")
-@main.route("/<category>/<fig_type>/<fig_data>/viz_category.png/<handle>/")
+@main.route("/explore/<category>/<fig_type>/<fig_data>/viz_category.png/")
+@main.route("/explore/<category>/<fig_type>/<fig_data>/viz_category.png/<handle>/")
 def viz_category(category=None, handle=None, fig_type='hist', fig_data='retweet'):
-    if handle == 'All':
-        handle = None
     pd_tweets = get_viz_df(category, handle)
     png_output = StringIO.StringIO()
     fig = plt.figure()

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="row">
+    <div class="large-12 columns">
+    {% if handle %}
+      <h1>{{ category }} -  {{ handle }}</h1>
+    {% else %}
+      <h1>{{ category }}
+    {% endif %}
+</div>
+<form method="POST" action = "" class="form" >
+  <div class="row collapse">
+    <div class="small-8 columns">
+      <input name="handle" type="text" placeholder="Enter a Twitter Name or Hashtag to Explore - Start with @ or # to Indicate Account or Hashtag?" />
+    </div>
+    <div class="small-4 columns">
+      <button class="button small" type="submit">Submit</button>
+    </div>
+    </div>
+  </div>
+</form>
+{% if category %}
+<div class="row">
+  <div class="large-6 small-12 columns">
+    <h2>Retweets</h2>
+    <img src="{{url_for('main.viz_category', category=category, handle=handle, fig_type='hist', fig_data='retweet')}}" />
+  </div>
+  <div class="large-6 small-12 columns">
+    <h2>Favorites</h2>
+    <img src="{{url_for('main.viz_category', category=category, handle=handle, fig_type='hist', fig_data='favorite')}}" />
+  </div>
+</div>
+{% endif %}
+{% endblock %}

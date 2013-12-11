@@ -21,11 +21,13 @@
     <!-- Left Nav Section -->
     <ul class="left">
       <li class="divider"></li> 
-         <li class="active"><a href="{{ url_for('main.index', category='tech') }}">Tech</a></li>
+         <li class="active"><a href="{{ url_for('main.explore', category='tech') }}">Tech</a></li>
       <li class="divider"></li> 
-         <li class="active"><a href="{{ url_for('main.index', category='sports') }}">Sports</a></li>
+         <li class="active"><a href="{{ url_for('main.explore', category='sports') }}">Sports</a></li>
       <li class="divider"></li> 
-         <li class="active"><a href="{{ url_for('main.index', category='celebrity') }}">Celebrity</a></li>
+         <li class="active"><a href="{{ url_for('main.explore', category='celebrity') }}">Celebrity</a></li>
+      <li class="divider"></li> 
+         <li class="active"><a href="{{ url_for('main.words') }}">Trending Words</a></li>         
       <li class="divider"></li>
          <li class="active"><a href="{{ url_for('main.about') }}">About the Team</a></li>          
     </ul>

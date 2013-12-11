@@ -12,8 +12,10 @@ def get_viz_df(category, handle=None):
         # Not extracted yet.  Need to create an empty data frame
         return pd.DataFrame()
     df = pd.read_csv(current_app.config['DATASETS'] + filename)
-    if handle:
-        df = df[df['TwitterID'] == handle]
+    if handle and handle[0] == '@':
+        df = df[df['TwitterID'] == handle[1:]]
+    if handle and handle[0] == '#':
+        df = df[df['HashTag'] == handle[1:]]
     return df
 
 def get_words_df():
