@@ -115,7 +115,7 @@ def favicon():
 def viz_category(category=None, handle=None, fig_type='hist', fig_data='retweet'):
     pd_tweets = get_viz_df(category, handle)
     png_output = StringIO.StringIO()
-    fig = plt.figure()
+    # fig = plt.figure()
     if fig_type == 'hist':
         if fig_data == 'retweet':
             plt.hist(pd_tweets.Retweet, bins=100, range=(0, 10000), log=True)
