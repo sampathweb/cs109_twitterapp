@@ -11,16 +11,20 @@
 
 from collections import defaultdict
 import json
+
+import matplotlib as mpl
+# Force matplotlib to not use any Xwindows backend.
+mpl.use('Agg')
+
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib import rcParams
 import matplotlib.cm as cm
-import matplotlib as mpl
 
 #Specific for what is used below
-#import oauth2 as oauth
+# import oauth2 as oauth
 import urlparse
 import requests
 import csv
@@ -53,63 +57,34 @@ def log_likelihood(clf, x, y):
     fresh = ~rotten
     return prob[rotten, 0].sum() + prob[fresh, 1].sum()
 
-from sklearn.cross_validation import KFold
-
-def cv_score(clf, x, y, score_func):
-    """
-    Uses 5-fold cross validation to estimate a score of a classifier
-
-    Inputs
-    ------
-    clf : Classifier object
-    x : Input feature vector
-    y : Input class labels
-    score_func : Function like log_likelihood, that takes (clf, x, y) as input,
-                 and returns a score
-
-    Returns
-    -------
-    The average score obtained by randomly splitting (x, y) into training and
-    test sets, fitting on the training set, and evaluating score_func on the test set
-
-    Examples
-    cv_score(clf, x, y, log_likelihood)
-    """
-    result = 0
-    nfold = 5
-    for train, test in KFold(y.size, nfold): # split data into train/test groups, 5 times
-        clf.fit(x[train], y[train]) # fit
-        result += score_func(clf, x[test], y[test]) # evaluate score function on held-out data
-    return result / nfold # average
 
 def recommend(twitterword):
     newpd = get_words_df()
-    # newpd = pd.read_csv('twitter_bigdf_useravg.csv')
-    newpd['Tweet'] = newpd['Tweet'].apply(str)
+    # newpd = pd.read_csv('twitter_bigdf_appended_cleanedtweets_averageperuser.csv')
+    newpd['Tweet'] = newpd['Tweet'].map(lambda x: str(x))
 
     newpd['was_retweeted'] = newpd['average_retweet_threshold']
-
-    X, Y = make_xy(newpd)
-
-    xtrain, xtest, ytrain, ytest = train_test_split(X, Y)
-    clf = MultinomialNB().fit(xtrain, ytrain)
 
     best_alpha = 50.0
     best_min_df = 0.01
 
-    words = np.array(vectorizer.get_feature_names())
 
-    x = np.eye(xtest.shape[1])
+    vectorizer = CountVectorizer(min_df=best_min_df)
+    x, y = make_xy(newpd, vectorizer)
+    xtrain, xtest, ytrain, ytest = train_test_split(x, y)
+
+    clf = MultinomialNB(alpha=best_alpha).fit(xtrain, ytrain)
+
     probs = clf.predict_log_proba(x)[:, 0]
-    ind = np.argsort(probs)
 
-    good_words = words[ind[:10]]
-    bad_words = words[ind[-10:]]
+    prob = clf.predict_proba(x)[:, 0]
+    predict = clf.predict(x)
 
-    good_prob = probs[ind[:10]]
-    bad_prob = probs[ind[-10:]]
+    retweet_chance = abs(clf.predict_proba(vectorizer.transform([twitterword])) / probs.mean())
 
-    return clf.predict_proba(vectorizer.transform([twitterword]))
+    answer = 'Compared to an average tweet, using "%s" in your tweet has the likliehood of a retweet of '%twitterword + str(retweet_chance[0][1])
+
+    return answer
 
 
 

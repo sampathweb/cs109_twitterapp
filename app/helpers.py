@@ -19,7 +19,7 @@ def get_viz_df(category, handle=None):
     return df
 
 def get_words_df():
-    filename = '/twitter_bigdf_useravg.csv'
-    df = pd.read_csv(current_app['DATASETS'] + filename)
+    filename = '/twitter_bigdf_appended_cleanedtweets_averageperuser.csv'
+    df = pd.read_csv(current_app.config['DATASETS'] + filename)
     return df
 

@@ -103,7 +103,7 @@ def words():
         search = request.form.get('search')
     if search:
         word_score = recommend(search)
-    return render_template('main/words.html')
+    return render_template('main/words.html', search=search, word_score=word_score)
 
 @main.route('/about/', methods=['GET', 'POST'])
 def about():
