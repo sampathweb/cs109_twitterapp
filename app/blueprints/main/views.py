@@ -8,14 +8,17 @@ from collections import defaultdict
 import json
 
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 import scipy
 import scipy.stats
 
+import matplotlib as mpl
+# Force matplotlib to not use any Xwindows backend.
+mpl.use('Agg')
+
+import matplotlib.pyplot as plt
 from matplotlib import rcParams
 import matplotlib.cm as cm
-import matplotlib as mpl
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.dates import DateFormatter
@@ -115,7 +118,7 @@ def favicon():
 def viz_category(category=None, handle=None, fig_type='hist', fig_data='retweet'):
     pd_tweets = get_viz_df(category, handle)
     png_output = StringIO.StringIO()
-    # fig = plt.figure()
+    fig = plt.figure()
     if fig_type == 'hist':
         if fig_data == 'retweet':
             plt.hist(pd_tweets.Retweet, bins=100, range=(0, 10000), log=True)
