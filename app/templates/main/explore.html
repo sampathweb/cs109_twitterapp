@@ -18,6 +18,13 @@
     </div>
     <div class="large-12 columns"> 
       <h4>Sample Values:</h4>
+      {% if category == 'sports' %}
+        <p>@shaq, #nfl</p>
+      {% elif category == 'celebrity' %}
+        <p>@theellenshow</p>
+      {% elif category == 'tech' %}
+      <p>@kevinrose</p>
+      {% endif %}
     </div>
   </div>
 </form>
