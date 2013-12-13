@@ -2,8 +2,14 @@
 {% block body %}
 <div class="row">
     <div class="large-12 columns">
-    <h1>Welcome to Twitter Explorer - A CS109 Project</h1>
-    <p>Click on the links above to select a DataSet to Explore</p>
-    <p>You can also go to the words in the menu to see what words trend on a Tweet</p>
+    <h2>Welcome to Twitter Explorer - A CS109 Project</h2>
+    <h4>In this App, you can:</h4>
+    <ul>
+    <li><p>Click on the links above to select a DataSet to Explore - Tech, Sports or Celebrity</p></li>
+    <li><p>You can also go to the words in the menu to see what words trend on a Tweet</p></li>
+    </ul>
+    <br>
+    <h4>Caution - Server Capacity is limited:</h4>
+    <p>Because we have the data stored in CSV files that we read, it might take a bit of time when you click on the options.  Please don't click on the menu options multiple times.  This will send multiple requests to server and cause server (502) error.  We are on a shared server with 1GB of memory.</p>
 </div>
 {% endblock %}
